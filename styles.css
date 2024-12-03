@@ -1,0 +1,213 @@
+/* Estilos Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ccc; /* Fundo claro */
+    color: #333;
+    background-image: url('https://i.imgur.com/Zp46uFO.png'); /* Imagem da empresa */
+    background-size: 100%; /* Ajuste o tamanho da imagem conforme necessário */
+    background-repeat: no-repeat; /* Não repete a imagem */
+    background-position: center; /* Posiciona a imagem no centro */
+    background-attachment: fixed; /* Fundo fixo ao rolar a página */
+    opacity: 1.0; /* Controle de opacidade do fundo */
+}
+
+h1 {
+    text-align: center;
+    margin: 20px;
+    color: #fff;
+}
+
+/* Container do App */
+.app-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+header {
+    display: flex; /* Flexbox para o layout */
+    align-items: center; /* Alinha os itens verticalmente no centro */
+    justify-content: flex-start; /* Alinha os itens no início (esquerda) */
+    background-color: #1b4f72; /* Cabeçalho escuro */
+    color: #fff;
+    padding: 15px 20px; /* Ajuste o padding conforme necessário */
+}
+
+#logo {
+    width: 200px; /* Ajuste o tamanho conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-right: 400px; /* Espaçamento à direita da imagem */
+}
+
+/* Formulário de Máquina */
+#machine-form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+select, input[type="text"], input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#machine-image-preview-container {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#machine-image-preview {
+    width: 500px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+button[type="submit"] {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #2d4373;
+}
+
+/* Exibição das Máquinas */
+.machines-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.machine-card {
+    background-color: #eaecee;
+    padding: 15px;
+    border-radius: 8px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.machine-card img {
+    width: 150px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 20%;
+    margin-bottom: 10px;
+}
+
+.machine-card:hover {
+    transform: scale(1.05);
+}
+
+/* Botão de Adicionar Máquina */
+.add-button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.add-button:hover {
+    background-color: #235ad1;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Estilo para o botão de exclusão */
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    color: #ff0000;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.delete-btn:hover {
+    color: #d9534f; /* Cor vermelha ao passar o mouse */
+}
+
+
+/* Estilos de Status e Botão de Atualização */
+.machine-card select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.update-status-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-status-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Cores dos Status */
+.status-indicator {
+    height: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.status-indicator.waiting-budget {
+    background-color: #FFEB3B; /* Amarelo */
+}
+
+.status-indicator.waiting-approval {
+    background-color: #2196F3; /* Azul */
+}
+
+.status-indicator.waiting-parts {
+    background-color: #FF5722; /* Laranja */
+}
+
+.status-indicator.released {
+    background-color: #4CAF50; /* Verde */
+}

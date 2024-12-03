@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizador de Manutenção de Máquinas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <!-- Logo da Empresa -->
+            <img src="https://i.imgur.com/lUGSsiA.png" alt="Logo da Empresa" id="logo">
+            <h1>Organizador de Manutenção de Máquinas</h1>
+        </header>
+
+        <!-- Tela Principal -->
+        <div id="main-screen" class="main-screen">
+            <!-- Máquinas serão exibidas aqui -->
+        </div>
+
+        <!-- Formulário para adicionar máquina (oculto por padrão) -->
+        <div id="machine-form-container" class="hidden">
+            <h2>Adicionar Máquina</h2>
+            <form id="machine-form">
+                <select id="machine-name" required>
+                    <option value="">Selecione a Máquina</option>
+                    <option value="Machine1">Kappa 310</option>
+                    <option value="Machine2">Kappa 320</option>
+                    <option value="Machine3">Kappa 330 SH</option>
+                    <option value="Machine4">Kappa 330 DH</option>
+                    <option value="Machine5">Kappa 331</option>
+                    <option value="Machine6">Kappa 340</option>
+                    <option value="Machine7">Kappa 350</option>
+                    <option value="Machine8">Mira 230</option>
+                    <option value="Machine9">Mira 230Q</option>
+                    <option value="Machine10">Mira 340</option>
+                    <option value="Machine11">Mira 340Q</option>
+                    <option value="Machine12">Mira 440</option>
+                    <option value="Machine13">QpLite</option>
+                    <option value="Machine14">Microforce</option>
+                    <option value="Machine15">Microlab 10</option>
+                    <option value="Machine16">Microlab 30</option>
+                    <option value="Machine17">Q1210</option>
+                    <option value="Machine18">K331</option>
+                    <option value="Machine19">Mira 32M</option>
+                    <option value="Machine20">Delta 220</option>
+                    <option value="Machine21">Delta 240</option>
+                    <option value="Machine22">Delta 260</option>
+                    <option value="Machine23">Bt 722</option>
+                    <option value="Machine24">Bt 752</option>
+                    <option value="Machine25">Iota 330</option>
+                    <option value="Machine26">Micropull 10</option>
+                </select>
+                <div id="machine-image-preview-container">               
+                    <img id="machine-image-preview" src="" alt="Imagem da Máquina" class="hidden">
+                </div>
+                <input type="text" id="machine-description" placeholder="Descrição da Máquina" required>  
+                <input type="text" id="serial-number" placeholder="Número de Série" required>
+              <input type="text" id="OS-number" placeholder="Número da OS" required>
+              <input type="text" id="responsible-name" placeholder="Responsável" required>
+                <input type="date" id="maintenance-date" required>
+                <button type="submit">Adicionar Máquina</button>
+            </form>
+        </div>
+
+        <!-- Exibição das Máquinas -->
+        <div id="machines-container" class="machines-container">
+            <!-- As máquinas adicionadas serão exibidas aqui -->
+        </div>
+    </div>
+
+    <!-- Botão "+" para adicionar máquina -->
+    <button id="add-machine-btn" class="add-button">+</button>
+
+    <script src="app.js"></script>
+</body>
+</html>
