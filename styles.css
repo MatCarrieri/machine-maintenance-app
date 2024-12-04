@@ -30,19 +30,21 @@ h1 {
     padding: 10px;
 }
 
+/* Cabeçalho */
 header {
     display: flex; /* Flexbox para o layout */
     align-items: center; /* Alinha os itens verticalmente no centro */
     justify-content: flex-start; /* Alinha os itens no início (esquerda) */
     background-color: #1b4f72; /* Cabeçalho escuro */
     color: #fff;
-    padding: 15px 20px; /* Ajuste o padding conforme necessário */
+    padding: 15px 20px;
 }
 
+/* Logo */
 #logo {
-    width: 200px; /* Ajuste o tamanho conforme necessário */
-    height: auto; /* Mantém a proporção da imagem */
-    margin-right: 400px; /* Espaçamento à direita da imagem */
+    width: 150px; /* Ajuste para telas menores */
+    height: auto;
+    margin-right: 20px; /* Ajuste o espaço */
 }
 
 /* Formulário de Máquina */
@@ -67,7 +69,7 @@ select, input[type="text"], input[type="date"] {
 }
 
 #machine-image-preview {
-    width: 500px;
+    width: 200px; /* Ajuste o tamanho da imagem para telas pequenas */
     height: 150px;
     object-fit: cover;
     border-radius: 50%;
@@ -101,7 +103,8 @@ button[type="submit"]:hover {
     background-color: #eaecee;
     padding: 15px;
     border-radius: 8px;
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
@@ -163,7 +166,6 @@ button[type="submit"]:hover {
     color: #d9534f; /* Cor vermelha ao passar o mouse */
 }
 
-
 /* Estilos de Status e Botão de Atualização */
 .machine-card select {
     width: 100%;
@@ -211,3 +213,47 @@ button[type="submit"]:hover {
 .status-indicator.released {
     background-color: #4CAF50; /* Verde */
 }
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    #logo {
+        width: 120px;
+    }
+
+    .app-container {
+        padding: 5px;
+    }
+
+    .machine-card {
+        width: 100%; /* Ajusta o tamanho das cartas em telas pequenas */
+    }
+
+    /* Ajustes para o botão de adicionar máquina */
+    .add-button {
+        font-size: 20px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        background-size: cover; /* Ajuste a imagem do fundo para cobrir toda a tela */
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    .machine-card {
+        width: 100%; /* Ajusta as cartas para ocupar toda a largura */
+        padding: 10px;
+    }
+
+    .add-button {
+        font-size: 18px;
+        padding: 10px;
+        width: 45px;
+        height: 45px;
+    }
+}
+
