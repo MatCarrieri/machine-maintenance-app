@@ -1,0 +1,33 @@
+{
+  "name": "machine-maintenance-app",
+  "version": "1.0.0",
+  "description": "A machine maintenance app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.yourname.machine-maintenance-app",
+    "productName": "KMO",
+    "win": {
+      "target": "nsis",
+      "icon": "https://i.imgur.com/If5OQpR.png",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "oneClick": false,  
+      "perMachine": true,  
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true  
+    }
+  }
+}
+
+
+
