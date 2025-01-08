@@ -12,7 +12,7 @@ const machinesContainer = document.getElementById('machines-container');
 const mainScreen = document.getElementById('main-screen');
 
 // WebSocket setup
-const ws = new WebSocket('https://matcarrieri.github.io/machine-maintenance-app/');
+const wss = new WebSocket('https://machine-maintenance-app.onrender.com');
 
 // Send machine data to WebSocket server
 function sendMachineData(machineData) {
