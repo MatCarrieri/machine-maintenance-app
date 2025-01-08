@@ -1,26 +1,44 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const WebSocket = require('ws');
+
+let clients = []; // To store connected clients
+
+// Create WebSocket server
+const wss = new WebSocket.Server({ port: 8080 });
+
+// Handle WebSocket connections
+wss.on('connection', (ws) => {
+    clients.push(ws);
+
+    ws.on('message', (message) => {
+        // Broadcast the message to all connected clients
+        clients.forEach((client) => {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        });
+    });
+
+    ws.on('close', () => {
+        clients = clients.filter((client) => client !== ws);
+    });
+});
 
 function createWindow() {
-    // Create a browser window
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: true, // Allows you to access Node.js in the browser window
+            nodeIntegration: true,
         },
     });
 
-    // Load your app’s HTML file (the same one you use for the web version)
     win.loadURL('file://' + path.join(__dirname, 'index.html'));
-
-    // Open DevTools (optional for debugging)
-    // win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
 
-// Quit when all windows are closed
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
