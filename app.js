@@ -1,4 +1,4 @@
-// Seleção de elementos
+// Element selection
 const addMachineBtn = document.getElementById('add-machine-btn');
 const machineFormContainer = document.getElementById('machine-form-container');
 const machineForm = document.getElementById('machine-form');
@@ -8,10 +8,28 @@ const serialNumberInput = document.getElementById('serial-number');
 const maintenanceDateInput = document.getElementById('maintenance-date');
 const OSnumberInput = document.getElementById('OS-number');
 const responsibleNameInput = document.getElementById('responsible-name');
-const machineImagePreview = document.getElementById('machine-image-preview');
-const machineImagePreviewContainer = document.getElementById('machine-image-preview-container');
 const machinesContainer = document.getElementById('machines-container');
 const mainScreen = document.getElementById('main-screen');
+
+// WebSocket setup
+const ws = new WebSocket('https://matcarrieri.github.io/machine-maintenance-app/');
+
+// Send machine data to WebSocket server
+function sendMachineData(machineData) {
+    ws.send(JSON.stringify(machineData));
+}
+
+// Receive updates from WebSocket server
+ws.onmessage = (event) => {
+    const machineData = JSON.parse(event.data);
+    addMachineToDisplay(machineData);
+};
+
+// Toggle form visibility
+function toggleMachineForm() {
+    machineFormContainer.classList.toggle('hidden');
+    mainScreen.classList.toggle('hidden');
+}
 
 // Mapeamento dos nomes das máquinas
 const machineNames = {
@@ -43,7 +61,7 @@ const machineNames = {
     Machine26: "Micropull 10",
 };
 
-// Dados das máquinas (substitua com caminhos de imagem corretos)
+// Dados das máquinas (imagens)
 const machinesData = {
     Machine1: 'https://i.imgur.com/2eDXDL7.jpeg',
     Machine2: 'https://i.imgur.com/AaMEKDM.png',
@@ -73,44 +91,31 @@ const machinesData = {
     Machine26: 'https://i.imgur.com/595UDeO.png',
 };
 
-// Função para formatar a data no formato brasileiro (DD/MM/YYYY)
-function formatDateToBrazilian(date) {
-    const [year, month, day] = date.split('-'); // Divide a data no formato YYYY-MM-DD
-    return `${day}/${month}/${year}`; // Retorna no formato DD/MM/YYYY
+// Format date to Brazilian standard (dd/mm/yyyy)
+function formatDateToBrazilian(dateString) {
+    const date = new Date(dateString);
+    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}/${date.getFullYear()}`;
 }
 
-// Função para alternar a visibilidade do formulário
-function toggleMachineForm() {
-    machineFormContainer.classList.toggle('hidden');
-    mainScreen.classList.toggle('hidden');
-}
-
-// Função para adicionar a máquina à exibição
+// Add machine to display
 function addMachineToDisplay(machineData) {
     const { name, description, serialNumber, OSnumber, responsibleName, maintenanceDate, imageURL } = machineData;
-
-    // Obter o nome legível da máquina com base no valor selecionado
-    const machineName = machineNames[name] || name; // Se não encontrar o nome, usa o valor
-
-    // Formatar a data de manutenção para o formato brasileiro
     const formattedDate = formatDateToBrazilian(maintenanceDate);
 
     const machineCard = document.createElement('div');
     machineCard.classList.add('machine-card');
 
     machineCard.innerHTML = `
-        <!-- Botão de exclusão -->
         <button class="delete-btn">X</button>
-
-        <img src="${imageURL}" alt="${machineName}">
-        <h3>${machineName}</h3>
+        <img src="${imageURL}" alt="${name}">
+        <h3>${name}</h3>
         <p><strong>OS:</strong> ${OSnumber}</p>
         <p><strong>Serial:</strong> ${serialNumber}</p>
-        <p><strong>Data de chegada:</strong> ${formattedDate}</p> <!-- Exibe a data formatada -->
+        <p><strong>Data de chegada:</strong> ${formattedDate}</p>
         <p><strong>Responsável:</strong> ${responsibleName}</p>
         <p>${description}</p>
-
-        <!-- Seletor de Status -->
         <label for="status-${serialNumber}"></label>
         <select id="status-${serialNumber}" class="machine-status">
             <option value="Aguardando orçamento">Aguardando orçamento</option>
@@ -118,28 +123,16 @@ function addMachineToDisplay(machineData) {
             <option value="Aguardando peças">Aguardando peças</option>
             <option value="Liberada para execução">Liberada para execução</option>
         </select>
-
-        <!-- Indicador de status visual (barra colorida) -->
-        <div class="status-indicator" id="status-indicator-${serialNumber}"></div> 
+        <div class="status-indicator" id="status-indicator-${serialNumber}"></div>
     `;
 
-    // Adiciona o card na tela
     machinesContainer.appendChild(machineCard);
 
-    // A cada alteração no select de status, atualiza a cor da barra
     const statusSelect = machineCard.querySelector('.machine-status');
     const statusIndicator = machineCard.querySelector('.status-indicator');
 
-  // Configurar o status inicial
-    if (statusSelect.value === 'Aguardando orçamento') {
-        statusIndicator.className = 'status-indicator waiting-budget';
-    }
-  
-  statusSelect.addEventListener('change', function() {
-        const newStatus = statusSelect.value;
-
-        // Atualiza a cor do indicador de status
-        switch (newStatus) {
+    statusSelect.addEventListener('change', function () {
+        switch (statusSelect.value) {
             case 'Aguardando orçamento':
                 statusIndicator.className = 'status-indicator waiting-budget';
                 break;
@@ -154,19 +147,15 @@ function addMachineToDisplay(machineData) {
                 break;
         }
     });
-  
-  // Adiciona funcionalidade ao botão de exclusão
+
     const deleteBtn = machineCard.querySelector('.delete-btn');
-    deleteBtn.addEventListener('click', function() {
-        machineCard.remove(); // Remove o card da tela
+    deleteBtn.addEventListener('click', function () {
+        machineCard.remove();
     });
 }
 
-// Evento do botão para adicionar máquina
-addMachineBtn.addEventListener('click', toggleMachineForm);
-
-// Evento para envio do formulário
-machineForm.addEventListener('submit', function(e) {
+// Handle form submission
+machineForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
     const machineData = {
@@ -174,11 +163,15 @@ machineForm.addEventListener('submit', function(e) {
         description: machineDescriptionInput.value,
         serialNumber: serialNumberInput.value,
         maintenanceDate: maintenanceDateInput.value,
-        responsibleName: responsibleNameInput.value || "Não informado", // Garantir que tenha um valor padrão se o campo estiver vazio
+        responsibleName: responsibleNameInput.value || "Não informado",
         OSnumber: OSnumberInput.value,
         imageURL: machinesData[machineNameInput.value] || 'default-image.jpg',
     };
 
     addMachineToDisplay(machineData);
+    sendMachineData(machineData);
     toggleMachineForm();
 });
+
+// Toggle form
+addMachineBtn.addEventListener('click', toggleMachineForm);
